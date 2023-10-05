@@ -18,7 +18,7 @@ class hasAbsent
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Absent::where("user_id", Auth::user()->id)->where("tanggal", Carbon::now()->toDateString())->whereNotNull("datang")->whereNotNull("pulang")->first()){
+        if(Absent::where("user_id", Auth::user()->id)->where("date", Carbon::now()->toDateString())->whereNotNull("in_time")->whereNotNull("out_time")->first()){
             return redirect("/")->with(["hasAbsent" , "Your has been absent"]);
         }
 

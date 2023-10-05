@@ -1,3 +1,6 @@
+@php
+use Carbon\Carbon;
+@endphp
 @extends('templates.index')
 @section('body')
     <div class="w-full relative flex flex-col items-center">
@@ -28,34 +31,37 @@
             <div class="flex justify-between items-center w-full bg-biru py-3 px-10 gap-3 rounded-md text-white">
                 <div class="text-center">
                     <div class="text-lg font-semibold">Datang</div>
-                    <div class="text-2xl font-bold">07:00</div>
-                </div>
+                    <div class="text-2xl font-bold">{{ optional($user->absent->where("date", Carbon::now()->toDateString())->first())->in_time ?? "-" }}</div>                </div>
                 <span class="w-[1px] h-[50px] bg-white"></span>
                 <div class="text-center">
                     <div class="text-lg font-semibold">Pulang</div>
-                    <div class="text-2xl font-bold">16:00</div>
-                </div>
+                    <div class="text-2xl font-bold">{{ optional($user->absent->where("date", Carbon::now()->toDateString())->first())->out_time ?? "-" }}</div>                </div>
             </div>
             <div class="flex items-center justify-between ">
                 <div class="font-semibold text-2xl">Presensi 3 hari terakhir</div>
                 <a href="#" class="text-lg">Lihat semua...</a>
             </div>
+            @forelse ($user->absent->skip(1)->take(3) as $history )
             <div class="flex items-center justify-between py-3 px-10 bg-gray-100 h-[145px] rounded-md">
-                <div class="flex flex-col gap-2 text-lg ">
-                    <div>
-                        <div class="font-semibold">datang</div>
-                        <div>06:00 WIB</div>
+                    <div class="flex flex-col gap-2 text-lg ">
+                        <div>
+                            <div class="font-semibold">datang</div>
+                            <div>{{$history->in_time}} WIB</div>
+                        </div>
+                        <div>
+                            <div class="font-semibold">pulang</div>
+                            <div>{{$history->out_time}} WIB</div>
+                        </div>
                     </div>
-                    <div>
-                        <div class="font-semibold">pulang</div>
-                        <div>17:00 WIB</div>
+                    <div class="h-full flex flex-col justify-evenly items-center">
+                        <div class="text-xl font-semibold">{{$history->date}} </div>
+                        <img src="{{asset("image/check.png")}}" class="w-10">
                     </div>
                 </div>
-                <div class="h-full flex flex-col justify-evenly items-center">
-                    <div class="text-xl font-semibold">17 September 2023</div>
-                    <img src="{{asset("image/check.png")}}" class="w-10">
-                </div>
-            </div>
+                @empty
+
+                @endforelse
+
 
         </div>
     </div>

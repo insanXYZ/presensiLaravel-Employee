@@ -14,8 +14,8 @@ function showPosition(position) {
 function openCam()
 {
     Webcam.set({
-        width:450,
-        height: 450,
+        width: 420,
+        height: 340,
         image_format: 'jpeg',
         jpeg_quality: 90
     });

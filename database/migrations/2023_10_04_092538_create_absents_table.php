@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('absents', function (Blueprint $table) {
             $table->id();
             $table->string("user_id")->nullable(false);
-            $table->string("img")->nullable(false);
-            $table->string("location")->nullable(false);
-            $table->time("datang")->nullable(true);
-            $table->time("pulang")->nullable(true)->default(null);
-            $table->date("tanggal")->nullable(false);
+            $table->string("in_img")->nullable(false);
+            $table->string("out_img")->nullable(true)->default(null);
+            $table->string("in_location")->nullable(false);
+            $table->string("out_location")->nullable(true)->default(null);
+            $table->time("in_time")->nullable(true);
+            $table->time("out_time")->nullable(true)->default(null);
+            $table->date("date")->nullable(false);
             $table->foreign("user_id")->on("users")->references("id");
         });
     }

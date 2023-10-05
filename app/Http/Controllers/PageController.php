@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Absent;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,11 +12,13 @@ use Illuminate\Support\Facades\Storage;
 
 class PageController extends Controller
 {
+
     public function home()
     {
-
         return view("main.home" , [
-            "user" => Auth::user()
+            "user" => User::with(['absent' => function ($query) {
+                $query->latest('date');
+            }])->where("id" , Auth::user()->id)->first(),
         ]);
     }
 
@@ -60,20 +63,24 @@ class PageController extends Controller
 
         $data = $this->cam($img);
 
-        $datang = Absent::where("user_id", Auth::user()->id)->where("tanggal", Carbon::now()->toDateString())->first();
+        $datang = Absent::where("user_id", Auth::user()->id)->where("date", Carbon::now()->toDateString())->first();
 
         if($datang) {
             $datang->update([
-                "pulang" => Carbon::now()->toTimeString()
+                "out_time" => Carbon::now()->toTimeString(),
+                "out_img" => $data[0],
+                "out_location" => $location,
             ]);
         } else {
             Absent::create([
                 "user_id" => Auth::user()->id,
-                "img" => $data[0],
-                "location" => $location,
-                "datang" => Carbon::now()->toTimeString(),
-                "pulang" => null,
-                "tanggal" => Carbon::now()->toDateString()
+                "in_img" => $data[0],
+                "out_img" => null,
+                "in_location" => $location,
+                "out_location" => null,
+                "in_time" => Carbon::now()->toTimeString(),
+                "out_time" => null,
+                "date" => Carbon::now()->toDateString()
             ]);
         }
 
