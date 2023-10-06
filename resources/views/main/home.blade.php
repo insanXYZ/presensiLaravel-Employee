@@ -28,6 +28,11 @@ use Carbon\Carbon;
                 </div>
                 <img src="{{asset("image/logo.png")}}" class="w-50 opacity-50 h-w-50 absolute right-0">
             </div>
+            @if (session()->has("success"))
+                <div id="alert" class="w-full bg-biru py-3 px-10 gap-3 rounded-md text-white text-lg font-semibold">
+                    {{session("success")}}
+                </div>
+            @endif
             <div class="flex justify-between items-center w-full bg-biru py-3 px-10 gap-3 rounded-md text-white">
                 <div class="text-center">
                     <div class="text-lg font-semibold">Datang</div>
@@ -59,10 +64,13 @@ use Carbon\Carbon;
                     </div>
                 </div>
                 @empty
-
+                <div class="text-center">
+                    Tidak ada presensi dalam 3 hari terakhir
+                </div>
                 @endforelse
-
-
         </div>
     </div>
+@endsection
+@section('script')
+    <script src="{{asset("js/pageHome.js")}}"></script>
 @endsection

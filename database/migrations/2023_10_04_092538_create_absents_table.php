@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('absents', function (Blueprint $table) {
-            $table->id();
+            $table->string("id")->nullable(false)->primary();
             $table->string("user_id")->nullable(false);
             $table->string("in_img")->nullable(false);
             $table->string("out_img")->nullable(true)->default(null);

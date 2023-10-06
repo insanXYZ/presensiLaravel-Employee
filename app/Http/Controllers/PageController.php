@@ -80,7 +80,8 @@ class PageController extends Controller
                 "out_location" => null,
                 "in_time" => Carbon::now()->toTimeString(),
                 "out_time" => null,
-                "date" => Carbon::now()->toDateString()
+                "date" => Carbon::now()->toDateString(),
+                "status" => null,
             ]);
         }
 
