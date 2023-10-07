@@ -44,6 +44,7 @@ class AuthController extends Controller
         ]);
 
         $credential["password"] = bcrypt($request->password);
+        $credential["nk"] = (string)rand(100000000000000, 999999999999999);
 
         User::create($credential);
 

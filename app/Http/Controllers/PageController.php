@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Absent;
+use App\Models\Permission;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,7 +22,44 @@ class PageController extends Controller
             }])->where("id" , Auth::user()->id)->first(),
         ]);
     }
+    public function permission()
+    {
 
+        return view("main.permission");
+    }
+
+    public function storePermission(Request $request)
+    {
+        $credentials = $request->validate([
+            "img" => ["required" ,"image"],
+            "status" => ["required"],
+            "information" => ["required"]
+        ]);
+
+        $credentials["date"] = Carbon::now()->toDateString();
+
+        $exist = User::with(['absent'])->where("id",Auth::user()->id)->first()->absent->where("date" , Carbon::now()->toDateString());
+
+        if(count($exist) == 1) {
+
+            $credentials["absent_id"] = $exist[0]->id;
+            $credentials["img"] = $request->file("img")->store("permissionImage");
+
+            Permission::create($credentials);
+
+
+            return redirect("/")->with("success" , "Perizinan berhasil di kirim");
+        } else if(count($exist) == 0) {
+            $absent = Absent::createAbsent();
+
+            $credentials["absent_id"] = $absent->id;
+            $credentials["img"] = $request->file("img")->store("permissionImage");
+
+            Permission::create($credentials);
+
+            return redirect("/")->with("success" , "Perizinan berhasil di kirim");
+        }
+    }
     public function profil()
     {
         return view("main.profil");
@@ -81,12 +119,21 @@ class PageController extends Controller
                 "in_time" => Carbon::now()->toTimeString(),
                 "out_time" => null,
                 "date" => Carbon::now()->toDateString(),
-                "status" => null,
             ]);
         }
 
         Storage::put($data[0], $data[1]);
 
         return redirect("/")->with("success","Absent successfully");
+    }
+    public function logout(Request $request)
+    {
+        Auth::logout();
+ 
+        $request->session()->invalidate();
+    
+        $request->session()->regenerateToken();
+    
+        return redirect('/login');
     }
 }

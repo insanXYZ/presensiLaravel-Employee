@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('absents', function (Blueprint $table) {
             $table->string("id")->nullable(false)->primary();
             $table->string("user_id")->nullable(false);
-            $table->string("in_img")->nullable(false);
+            $table->string("in_img")->nullable(true)->default(null);
             $table->string("out_img")->nullable(true)->default(null);
-            $table->string("in_location")->nullable(false);
+            $table->string("in_location")->nullable(true)->default(null);
             $table->string("out_location")->nullable(true)->default(null);
-            $table->time("in_time")->nullable(true);
+            $table->time("in_time")->nullable(true)->default(null);
             $table->time("out_time")->nullable(true)->default(null);
             $table->date("date")->nullable(false);
             $table->foreign("user_id")->on("users")->references("id");

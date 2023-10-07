@@ -6,6 +6,15 @@
             {{$class}}
         @endisset" >
         <div class="font-semibold text-white text-2xl">{{$name}} </div>
-        <span></span>
+        @if (isset($logout))
+            <form action="/logout" method="POST" class="w-10">
+                @csrf
+                <button type="submit">
+                    <img src="{{ asset("image/logout.png") }}" alt="logout">
+                </button>
+            </form>
+        @else
+            <span></span>
+        @endif
     </div>
 </div>

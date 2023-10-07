@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class status extends Model
+class Permission extends Model
 {
-protected $keyType = "string";
+    protected $keyType = "string";
     public $timestamps = false;
+
+    protected $guarded = ["id"];
 
     public function absent(): BelongsTo
     {
         return $this->belongsTo(Absent::class , "absent_id" , "id");
-    }
-
-}
+    }}

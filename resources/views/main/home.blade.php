@@ -4,7 +4,7 @@ use Carbon\Carbon;
 @extends('templates.index')
 @section('body')
     <div class="w-full relative flex flex-col items-center">
-        @include("components.topBar" , [ "img" => "image/logo.png" , "name" => "Beranda"])
+        @include("components.topBar" , [ "img" => "image/logo.png" , "name" => "Beranda" , "logout" => true])
         @include("components.bottomBar")
         <div class="my-24 w-2/4 max-w-5xl min-w-fit flex flex-col gap-8">
             <div class="flex items-center w-full  p-3 gap-10">

@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\status;
+use Carbon\Carbon;
+use App\Models\Absent as absen;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -19,13 +21,29 @@ class Absent extends Model
 
     protected $guarded = ["id"];
 
+    public static function createAbsent()
+    {
+        $data = absen::create([
+            "user_id" => Auth::user()->id,
+            "in_img" => null,
+            "out_img" => null,
+            "in_location" => null,
+            "out_location" => null,
+            "in_time" => null,
+            "out_time" => null,
+            "date" => Carbon::now()->toDateString(),
+        ]);
+
+        return $data;
+    }
+
     public function user():BelongsTo
     {
         return $this->belongsTo(User::class , "user_id" , "id");
     }
 
-    public function status(): HasOne
+    public function permission(): HasOne
     {
-        return $this->hasOne(status::class , "absent_id" , "id");
+        return $this->hasOne(Permission::class , "absent_id" , "id");
     }
 }
