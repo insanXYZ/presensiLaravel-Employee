@@ -10,7 +10,7 @@
     <a href="/absent" class=" flex justify-center items-center">
         <img class="w-14" src="{{asset("image/fingerprint.png")}}" >
     </a>
-    <a href="#" class="grid grid-rows-2 items-center justify-center ">
+    <a href="/about" class="grid grid-rows-2 items-center justify-center ">
         <img class="w-10 mx-auto" src="{{asset("image/info.png")}}" >
         <div class="text-white">about</div>
     </a>

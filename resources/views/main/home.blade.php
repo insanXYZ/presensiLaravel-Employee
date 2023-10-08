@@ -60,7 +60,13 @@ use Carbon\Carbon;
                     </div>
                     <div class="h-full flex flex-col justify-evenly items-center">
                         <div class="text-xl font-semibold">{{$history->date}} </div>
-                        <img src="{{asset("image/check.png")}}" class="w-10">
+                        @if(!is_null(optional($history->where("date" , $history->date)->first()->permission)))
+                            <div class="text-lg bg-green-300 px-3 py-1 rounded-md text-white ">{{ $history->where("date" , $history->date)->first()->permission->status }}</div>
+                        @elseif (is_null($history->in_time) || is_null($history->out_time))
+                            <img src="{{ asset("image/cross.png") }}" class="w-10">
+                        @elseif (!is_null($history->in_time) && !is_null($history->out_time))
+                            <img src="{{asset("image/check.png")}}" class="w-10">
+                        @endif
                     </div>
                 </div>
                 @empty

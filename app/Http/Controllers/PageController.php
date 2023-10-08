@@ -18,7 +18,7 @@ class PageController extends Controller
     {
         return view("main.home" , [
             "user" => User::with(['absent' => function ($query) {
-                $query->latest('date');
+                $query->latest('date')->with(["permission"]);
             }])->where("id" , Auth::user()->id)->first(),
         ]);
     }
@@ -122,7 +122,7 @@ class PageController extends Controller
             ]);
         }
 
-        Storage::put($data[0], $data[1]);
+        Storage::put("presensiImage/" . $data[0], $data[1]);
 
         return redirect("/")->with("success","Absent successfully");
     }
@@ -135,5 +135,10 @@ class PageController extends Controller
         $request->session()->regenerateToken();
     
         return redirect('/login');
+    }
+
+    public function about()
+    {
+        return view("main.about");
     }
 }

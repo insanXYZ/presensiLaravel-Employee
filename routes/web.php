@@ -34,6 +34,7 @@ Route::middleware("auth")->group(function(){
 
   Route::get("/", [PageController::class , "home"]);
   Route::get("/profil" , [PageController::class ,"profil"]);
+  Route::get("/about" , [PageController::class , "about"]);
   Route::post("/logout" , [PageController::class , "logout"]);
 
   Route::middleware("hasPermission")->group(function(){
